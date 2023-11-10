@@ -1,17 +1,25 @@
-import express from "express";
+import express, { Express } from "express";
 import "express-async-errors";
 import { handleApplicationErrors } from "@/middlewares/";
 import router from "@/routes/index.router";
 import cors from "cors";
+import { loadEnv, connectDb, disconnectDb } from "@/config";
+
+loadEnv();
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 app.use(router);
 app.use(handleApplicationErrors);
 
-const port = process.env.PORT || 5000;
+export function init(): Promise<Express> {
+  connectDb();
+  return Promise.resolve(app);
+}
 
-app.listen(port, () => console.log(`O servidor esta logado na porta ${port}`));
+export async function close(): Promise<void> {
+  await disconnectDb();
+}
 
 export default app;

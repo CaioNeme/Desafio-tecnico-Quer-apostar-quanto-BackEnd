@@ -1,4 +1,4 @@
-import prisma from "@/config/database";
+import { prisma } from "@/config/database";
 
 async function createBet(
   homeTeamScore: number,
@@ -17,6 +17,16 @@ async function createBet(
       status: "pending",
     },
   });
+
+  await prisma.participant.update({
+    where: {
+      id: participantId,
+    },
+    data: {
+      balance: { decrement: amountBet },
+    },
+  });
+
   return bet;
 }
 

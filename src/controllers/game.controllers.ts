@@ -20,8 +20,8 @@ export async function finishGame(req: Request, res: Response) {
   const { homeTeamScore, awayTeamScore } = req.body;
   const game = await gameServices.finishGame(
     Number(id),
-    homeTeamScore,
-    awayTeamScore
+    Number(homeTeamScore),
+    Number(awayTeamScore)
   );
   res.status(httpStatus.OK).send(game);
 }

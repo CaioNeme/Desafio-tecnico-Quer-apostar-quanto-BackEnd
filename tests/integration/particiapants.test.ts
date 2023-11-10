@@ -1,9 +1,22 @@
 import supertest from "supertest";
-import app from "../../src/app";
+import app, { init, close } from "@/app";
+import { dbClean } from "../helper";
 
 const sever = supertest(app);
-//TODO arrumar testes
 //TODO fazer as factories
+
+beforeAll(async () => {
+  await init();
+});
+
+beforeEach(async () => {
+  await dbClean();
+});
+
+afterAll(async () => {
+  await close();
+});
+
 //! Post /participants
 describe("POST /participants", () => {
   it("should respond with status 201 and create a participant", async () => {
@@ -28,7 +41,7 @@ describe("POST /participants", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      name: "name is required",
+      message: 'Invalid data: "name" is required ',
     });
   });
   it("should respond with status 400 when balance is missing", async () => {
@@ -38,7 +51,7 @@ describe("POST /participants", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      name: "balance must be greater than 1000",
+      message: 'Invalid data: "balance" is required ',
     });
   });
   it("should respond with status 400 when balance is less than 1000", async () => {
@@ -49,7 +62,7 @@ describe("POST /participants", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      name: "balance must be greater than 1000",
+      message: 'Invalid data: "balance" must be greater than or equal to 1000 ',
     });
   });
   it("should respond with status 400 when name is not a string", async () => {
@@ -60,7 +73,7 @@ describe("POST /participants", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      name: "name must be a string",
+      message: 'Invalid data: "name" must be a string ',
     });
   });
   it("should respond with status 400 when balance is not a number", async () => {
@@ -71,7 +84,7 @@ describe("POST /participants", () => {
 
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
-      name: "balance must be a number",
+      message: 'Invalid data: "balance" must be a number ',
     });
   });
 });

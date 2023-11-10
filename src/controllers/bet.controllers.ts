@@ -7,11 +7,11 @@ export async function createBet(req: Request, res: Response) {
     req.body;
 
   const bet = await betService.createBet(
-    homeTeamScore,
-    awayTeamScore,
-    amountBet,
-    gameId,
-    participantId
+    Number(homeTeamScore),
+    Number(awayTeamScore),
+    Number(amountBet),
+    Number(gameId),
+    Number(participantId)
   );
 
   res.status(httpStatus.CREATED).send(bet);
