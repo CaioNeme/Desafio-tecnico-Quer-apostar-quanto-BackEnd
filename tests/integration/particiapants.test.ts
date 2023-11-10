@@ -2,7 +2,8 @@ import supertest from "supertest";
 import app from "../../src/app";
 
 const sever = supertest(app);
-
+//TODO arrumar testes
+//TODO fazer as factories
 //! Post /participants
 describe("POST /participants", () => {
   it("should respond with status 201 and create a participant", async () => {

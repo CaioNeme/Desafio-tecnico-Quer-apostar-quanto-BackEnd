@@ -10,3 +10,8 @@ export async function createParticipant(req: Request, res: Response) {
   );
   res.status(httpStatus.CREATED).send(participant);
 }
+
+export async function getParticipants(req: Request, res: Response) {
+  const participants = await participantsService.getParticipants();
+  res.status(httpStatus.OK).send(participants);
+}

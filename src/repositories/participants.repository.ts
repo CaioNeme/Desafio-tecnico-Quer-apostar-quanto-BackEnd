@@ -10,6 +10,12 @@ async function createParticipant(name: string, balance: number) {
   return participant;
 }
 
+async function getParticipants() {
+  const participants = prisma.participant.findMany();
+  return participants;
+}
+
 export const participantsRepository = {
   createParticipant,
+  getParticipants,
 };

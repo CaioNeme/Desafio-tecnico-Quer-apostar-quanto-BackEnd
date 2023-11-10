@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,17 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Definição do modelo para o participante
 model Participant {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
-  balance   Int // O saldo é representado em centavos, como um número inteiro
+  balance   Int
   Bet       Bet[]
 }
 
-// Definição do modelo para o jogo
 model Game {
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
@@ -33,18 +28,17 @@ model Game {
   Bet           Bet[]
 }
 
-// Definição do modelo para a aposta
 model Bet {
   id            Int         @id @default(autoincrement())
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   homeTeamScore Int
   awayTeamScore Int
-  amountBet     Int // O valor da aposta é representado em centavos, como um número inteiro
+  amountBet     Int
   gameId        Int
   participantId Int
-  status        String // PENDING, WON, or LOST
-  amountWon     Int? // Pode ser null se a aposta estiver pendente
+  status        String
+  amountWon     Int?
   game          Game        @relation(fields: [gameId], references: [id])
   participant   Participant @relation(fields: [participantId], references: [id])
 }
