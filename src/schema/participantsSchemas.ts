@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const createParticipantSchema = Joi.object({
   name: Joi.string().required(),

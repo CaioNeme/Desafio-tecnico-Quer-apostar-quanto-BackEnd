@@ -1,13 +1,9 @@
-import { prisma } from "@/config";
-import { faker } from "@faker-js/faker";
-import { gamesFactory } from "./games.factory";
-import { participantsFactory } from "./participants.factory";
+import { faker } from '@faker-js/faker';
+import { gamesFactory } from './games.factory';
+import { participantsFactory } from './participants.factory';
+import { prisma } from '@/config';
 
-async function createBet(
-  homeTeamScore?: number,
-  awayTeamScore?: number,
-  amountBet?: number
-) {
+async function createBet(homeTeamScore?: number, awayTeamScore?: number, amountBet?: number) {
   const game = await gamesFactory.createGame();
   const participants = await participantsFactory.createParticipant();
 
@@ -18,7 +14,7 @@ async function createBet(
       amountBet: amountBet || 1000,
       gameId: game.id,
       participantId: participants.id,
-      status: "PENDING",
+      status: 'PENDING',
     },
   });
 

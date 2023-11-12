@@ -1,11 +1,11 @@
-import { prisma } from "@/config/database";
+import { prisma } from '@/config/database';
 
 async function createBet(
   homeTeamScore: number,
   awayTeamScore: number,
   amountBet: number,
   gameId: number,
-  participantId: number
+  participantId: number,
 ) {
   const bet = await prisma.bet.create({
     data: {
@@ -14,7 +14,7 @@ async function createBet(
       amountBet,
       gameId,
       participantId,
-      status: "PENDING",
+      status: 'PENDING',
     },
   });
 

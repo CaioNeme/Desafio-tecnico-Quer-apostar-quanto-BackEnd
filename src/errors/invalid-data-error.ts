@@ -1,8 +1,8 @@
-import { ApplicationError } from "@/protocols";
+import { ApplicationError } from '@/protocols';
 
 export function invalidDataError(details: string): ApplicationError {
   return {
-    name: "InvalidDataError",
+    name: 'InvalidDataError',
     message: `Invalid data: ${details}`,
   };
 }

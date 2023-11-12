@@ -1,9 +1,9 @@
-import express, { Express } from "express";
-import "express-async-errors";
-import { handleApplicationErrors } from "@/middlewares/";
-import router from "@/routes/index.router";
-import cors from "cors";
-import { loadEnv, connectDb, disconnectDb } from "@/config";
+import express, { Express } from 'express';
+import 'express-async-errors';
+import cors from 'cors';
+import { handleApplicationErrors } from '@/middlewares/';
+import router from '@/routes/index.router';
+import { loadEnv, connectDb, disconnectDb } from '@/config';
 
 loadEnv();
 

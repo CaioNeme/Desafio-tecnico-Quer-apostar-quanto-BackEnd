@@ -1,8 +1,8 @@
-import { Router } from "express";
-import healthRouter from "./health.router";
-import participantsRouter from "./participants.router";
-import gameRouter from "./games.router";
-import betRouter from "./bet.router";
+import { Router } from 'express';
+import healthRouter from './health.router';
+import participantsRouter from './participants.router';
+import gameRouter from './games.router';
+import betRouter from './bet.router';
 
 const router = Router();
 

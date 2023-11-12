@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const createGame = Joi.object({
   homeTeamName: Joi.string().required(),

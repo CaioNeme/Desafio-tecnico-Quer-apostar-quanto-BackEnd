@@ -1,6 +1,6 @@
-import { prisma } from "@/config/database";
-import { badRequest, notFoundError } from "@/errors";
-import { winningBetCalculator } from "@/utils/winningBetCalculator";
+import { prisma } from '@/config/database';
+import { notFoundError } from '@/errors';
+import { winningBetCalculator } from '@/utils/winningBetCalculator';
 
 async function createGame(homeTeamName: string, awayTeamName: string) {
   const game = prisma.game.create({
@@ -20,11 +20,7 @@ async function getGames() {
   return games;
 }
 
-async function finishGame(
-  id: number,
-  homeTeamScore: number,
-  awayTeamScore: number
-) {
+async function finishGame(id: number, homeTeamScore: number, awayTeamScore: number) {
   await betWin(id, homeTeamScore, awayTeamScore);
   await betLose(id, homeTeamScore, awayTeamScore);
   const game = prisma.game.update({
@@ -41,11 +37,7 @@ async function finishGame(
   return game;
 }
 
-async function betWin(
-  gameId: number,
-  homeTeamScore: number,
-  awayTeamScore: number
-) {
+async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: number) {
   const game = await prisma.game.findUnique({
     where: {
       id: gameId,
@@ -53,7 +45,7 @@ async function betWin(
   });
 
   if (!game) {
-    throw notFoundError("Game not found");
+    throw notFoundError('Game not found');
   }
 
   const bets = await prisma.bet.findMany({
@@ -63,17 +55,14 @@ async function betWin(
   });
 
   bets.map(async (bet) => {
-    if (
-      bet.homeTeamScore == homeTeamScore &&
-      bet.awayTeamScore == awayTeamScore
-    ) {
+    if (bet.homeTeamScore == homeTeamScore && bet.awayTeamScore == awayTeamScore) {
       await prisma.bet.update({
         where: {
           id: bet.id,
-          status: "PENDING",
+          status: 'PENDING',
         },
         data: {
-          status: "WON",
+          status: 'WON',
         },
       });
     }
@@ -90,14 +79,14 @@ async function betWin(
     const betWin = await prisma.bet.findMany({
       where: {
         gameId,
-        status: "WON",
+        status: 'WON',
       },
     });
 
     const betWinSum = await prisma.bet.aggregate({
       where: {
         gameId,
-        status: "WON",
+        status: 'WON',
       },
       _sum: {
         amountBet: true,
@@ -117,22 +106,14 @@ async function betWin(
           id: bet.id,
         },
         data: {
-          amountWon: winningBetCalculator(
-            bets._sum.amountBet,
-            betParticipant.amountBet,
-            betWinSum._sum.amountBet
-          ),
+          amountWon: winningBetCalculator(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
         },
       });
     });
   });
 }
 
-async function betLose(
-  gameId: number,
-  homeTeamScore: number,
-  awayTeamScore: number
-) {
+async function betLose(gameId: number, homeTeamScore: number, awayTeamScore: number) {
   const game = await prisma.game.findUnique({
     where: {
       id: gameId,
@@ -140,7 +121,7 @@ async function betLose(
   });
 
   if (!game) {
-    throw notFoundError("Game not found");
+    throw notFoundError('Game not found');
   }
 
   const bets = await prisma.bet.findMany({
@@ -150,17 +131,14 @@ async function betLose(
   });
 
   bets.map(async (bet) => {
-    if (
-      bet.homeTeamScore != homeTeamScore &&
-      bet.awayTeamScore != awayTeamScore
-    ) {
+    if (bet.homeTeamScore != homeTeamScore && bet.awayTeamScore != awayTeamScore) {
       await prisma.bet.update({
         where: {
           id: bet.id,
-          status: "PENDING",
+          status: 'PENDING',
         },
         data: {
-          status: "LOST",
+          status: 'LOST',
           amountWon: 0,
         },
       });
@@ -178,7 +156,7 @@ async function getGameById(id: number) {
     },
   });
   if (!game) {
-    throw notFoundError("Game not found");
+    throw notFoundError('Game not found');
   }
 
   return game;

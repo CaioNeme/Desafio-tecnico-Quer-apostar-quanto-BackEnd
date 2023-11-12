@@ -1,5 +1,5 @@
-import { prisma } from "@/config";
-import { faker } from "@faker-js/faker";
+import { faker } from '@faker-js/faker';
+import { prisma } from '@/config';
 
 async function createParticipant(balance?: number) {
   const participant = await prisma.participant.create({

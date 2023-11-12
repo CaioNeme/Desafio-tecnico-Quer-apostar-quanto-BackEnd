@@ -1,7 +1,7 @@
-import supertest from "supertest";
-import app, { init, close } from "@/app";
-import { dbClean } from "../helper";
-import { betFactory } from "../factories/bets.factory";
+import supertest from 'supertest';
+import { dbClean } from '../helper';
+import { betFactory } from '../factories/bets.factory';
+import app, { init, close } from '@/app';
 
 const sever = supertest(app);
 
@@ -17,11 +17,11 @@ afterAll(async () => {
   await close();
 });
 
-describe("POST /bets", () => {
-  it("should respond with status 201 and create a bet", async () => {
+describe('POST /bets', () => {
+  it('should respond with status 201 and create a bet', async () => {
     const bet = await betFactory.createBet();
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,
@@ -39,14 +39,14 @@ describe("POST /bets", () => {
       amountBet: bet.amountBet,
       gameId: bet.gameId,
       participantId: bet.participantId,
-      status: "PENDING",
+      status: 'PENDING',
       amountWon: null,
     });
   });
-  it("should respond with status 404 when game not found", async () => {
+  it('should respond with status 404 when game not found', async () => {
     const bet = await betFactory.createBet();
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,
@@ -56,13 +56,13 @@ describe("POST /bets", () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      message: "Game not found",
+      message: 'Game not found',
     });
   });
-  it("should respond with status 404 when participant not found", async () => {
+  it('should respond with status 404 when participant not found', async () => {
     const bet = await betFactory.createBet();
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,
@@ -72,13 +72,13 @@ describe("POST /bets", () => {
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
-      message: "Participant not found",
+      message: 'Participant not found',
     });
   });
-  it("should respond with status 400 when homeTeamScore is missing", async () => {
+  it('should respond with status 400 when homeTeamScore is missing', async () => {
     const bet = await betFactory.createBet(null, 0, 1000);
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,
       gameId: bet.gameId,
@@ -90,10 +90,10 @@ describe("POST /bets", () => {
       message: 'Invalid data: "homeTeamScore" is required ',
     });
   });
-  it("should respond with status 400 when awayTeamScore is missing", async () => {
+  it('should respond with status 400 when awayTeamScore is missing', async () => {
     const bet = await betFactory.createBet(0, null, 1000);
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       amountBet: bet.amountBet,
       gameId: bet.gameId,
@@ -105,10 +105,10 @@ describe("POST /bets", () => {
       message: 'Invalid data: "awayTeamScore" is required ',
     });
   });
-  it("should respond with status 400 when amountBet is missing", async () => {
+  it('should respond with status 400 when amountBet is missing', async () => {
     const bet = await betFactory.createBet(0, 0, null);
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       gameId: bet.gameId,
@@ -120,10 +120,10 @@ describe("POST /bets", () => {
       message: 'Invalid data: "amountBet" is required ',
     });
   });
-  it("should respond with status 400 when gameId is missing", async () => {
+  it('should respond with status 400 when gameId is missing', async () => {
     const bet = await betFactory.createBet();
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,
@@ -135,10 +135,10 @@ describe("POST /bets", () => {
       message: 'Invalid data: "gameId" is required ',
     });
   });
-  it("should respond with status 400 when participantId is missing", async () => {
+  it('should respond with status 400 when participantId is missing', async () => {
     const bet = await betFactory.createBet();
 
-    const response = await sever.post("/bets").send({
+    const response = await sever.post('/bets').send({
       homeTeamScore: bet.homeTeamScore,
       awayTeamScore: bet.awayTeamScore,
       amountBet: bet.amountBet,

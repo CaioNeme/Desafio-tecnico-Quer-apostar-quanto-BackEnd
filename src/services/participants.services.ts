@@ -1,10 +1,7 @@
-import { participantsRepository } from "@/repositories/participants.repository";
+import { participantsRepository } from '@/repositories/participants.repository';
 
 async function createParticipant(name: string, balance: number) {
-  const participant = await participantsRepository.createParticipant(
-    name,
-    balance
-  );
+  const participant = await participantsRepository.createParticipant(name, balance);
   return participant;
 }
 

@@ -1,4 +1,4 @@
-import { prisma } from "@/config";
+import { prisma } from '@/config';
 
 export async function dbClean() {
   await prisma.bet.deleteMany({});

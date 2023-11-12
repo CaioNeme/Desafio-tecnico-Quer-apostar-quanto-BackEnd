@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 const createBet = Joi.object({
   homeTeamScore: Joi.number().required(),
