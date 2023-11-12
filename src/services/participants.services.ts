@@ -1,4 +1,3 @@
-import { badRequest } from "@/errors";
 import { participantsRepository } from "@/repositories/participants.repository";
 
 async function createParticipant(name: string, balance: number) {

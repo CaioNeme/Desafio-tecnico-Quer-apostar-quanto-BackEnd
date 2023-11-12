@@ -10,8 +10,8 @@ async function createBet(
   gameId: number,
   participantId: number
 ) {
-  await validateBalance(participantId, amountBet);
   await validateGameFinish(gameId);
+  await validateBalance(participantId, amountBet);
   const bet = await betRepository.createBet(
     homeTeamScore,
     awayTeamScore,

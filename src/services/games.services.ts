@@ -22,6 +22,7 @@ async function finishGame(
     homeTeamScore,
     awayTeamScore
   );
+
   return game;
 }
 

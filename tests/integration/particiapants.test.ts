@@ -1,9 +1,9 @@
 import supertest from "supertest";
 import app, { init, close } from "@/app";
 import { dbClean } from "../helper";
+import { participantsFactory } from "../factories/participants.factory";
 
 const sever = supertest(app);
-//TODO fazer as factories
 
 beforeAll(async () => {
   await init();
@@ -20,11 +20,21 @@ afterAll(async () => {
 //! Post /participants
 describe("POST /participants", () => {
   it("should respond with status 201 and create a participant", async () => {
+    const participant = await participantsFactory.createParticipant(
+      "John Doe",
+      1000
+    );
+
     const response = await sever.post("/participants").send({
-      name: "John Doe",
-      balance: 1000,
+      name: participant.name,
+      balance: participant.balance,
     });
 
+    const participantCreated = await participantsFactory.getParticipantById(
+      participant.id
+    );
+
+    expect(participantCreated).toEqual(participant);
     expect(response.status).toBe(201);
     expect(response.body).toEqual({
       id: expect.any(Number),

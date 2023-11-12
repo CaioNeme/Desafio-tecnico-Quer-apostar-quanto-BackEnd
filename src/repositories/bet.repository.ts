@@ -14,7 +14,7 @@ async function createBet(
       amountBet,
       gameId,
       participantId,
-      status: "pending",
+      status: "PENDING",
     },
   });
 
