@@ -109,6 +109,15 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
           amountWon: winningBetCalculator(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
         },
       });
+
+      await prisma.participant.update({
+        where: {
+          id: bet.participantId,
+        },
+        data: {
+          balance: { increment: bet.amountWon },
+        },
+      });
     });
   });
 }
