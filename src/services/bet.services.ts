@@ -1,4 +1,4 @@
-import { badRequest } from "@/errors";
+import { badRequest, notFoundError } from "@/errors";
 import { betRepository } from "@/repositories/bet.repository";
 import { gameRepository } from "@/repositories/game.repository";
 import { participantsRepository } from "@/repositories/participants.repository";
@@ -11,7 +11,7 @@ async function createBet(
   participantId: number
 ) {
   await validateGameFinish(gameId);
-  await validateBalance(participantId, amountBet);
+  await validateParticipant(participantId, amountBet);
   const bet = await betRepository.createBet(
     homeTeamScore,
     awayTeamScore,
@@ -23,10 +23,13 @@ async function createBet(
   return bet;
 }
 
-async function validateBalance(idPaticipant: number, amountBet: number) {
+async function validateParticipant(idPaticipant: number, amountBet: number) {
   const participant = await participantsRepository.getParticipantById(
     idPaticipant
   );
+  if (!participant) {
+    throw notFoundError("Participant not found");
+  }
 
   if (participant.balance < amountBet) {
     throw badRequest("Insufficient balance");

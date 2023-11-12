@@ -17,13 +17,9 @@ afterAll(async () => {
   await close();
 });
 
-//! Post /participants
 describe("POST /participants", () => {
   it("should respond with status 201 and create a participant", async () => {
-    const participant = await participantsFactory.createParticipant(
-      "John Doe",
-      1000
-    );
+    const participant = await participantsFactory.createParticipant();
 
     const response = await sever.post("/participants").send({
       name: participant.name,
@@ -40,8 +36,8 @@ describe("POST /participants", () => {
       id: expect.any(Number),
       createdAt: expect.any(String),
       updatedAt: expect.any(String),
-      name: "John Doe",
-      balance: 1000,
+      name: participant.name,
+      balance: participant.balance,
     });
   });
   it("should respond with status 400 when name is missing", async () => {
@@ -96,5 +92,30 @@ describe("POST /participants", () => {
     expect(response.body).toEqual({
       message: 'Invalid data: "balance" must be a number ',
     });
+  });
+});
+
+describe("GET /participants", () => {
+  it("should respond with status 200 and list all participants", async () => {
+    const participant = await participantsFactory.createParticipant();
+
+    const response = await sever.get("/participants");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([
+      {
+        id: expect.any(Number),
+        createdAt: expect.any(String),
+        updatedAt: expect.any(String),
+        name: participant.name,
+        balance: participant.balance,
+      },
+    ]);
+  });
+  it("should respond with status 200 and empty array when there are no participants", async () => {
+    const response = await sever.get("/participants");
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual([]);
   });
 });

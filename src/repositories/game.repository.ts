@@ -1,5 +1,5 @@
 import { prisma } from "@/config/database";
-import { badRequest } from "@/errors";
+import { badRequest, notFoundError } from "@/errors";
 import { winningBetCalculator } from "@/utils/winningBetCalculator";
 
 async function createGame(homeTeamName: string, awayTeamName: string) {
@@ -53,7 +53,7 @@ async function betWin(
   });
 
   if (!game) {
-    throw badRequest("Game not found");
+    throw notFoundError("Game not found");
   }
 
   const bets = await prisma.bet.findMany({
@@ -140,7 +140,7 @@ async function betLose(
   });
 
   if (!game) {
-    throw badRequest("Game not found");
+    throw notFoundError("Game not found");
   }
 
   const bets = await prisma.bet.findMany({
@@ -178,7 +178,7 @@ async function getGameById(id: number) {
     },
   });
   if (!game) {
-    throw badRequest("Game not found");
+    throw notFoundError("Game not found");
   }
 
   return game;

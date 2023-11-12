@@ -1,4 +1,4 @@
-import { badRequest } from "@/errors";
+import { badRequest, notFoundError } from "@/errors";
 import { gameRepository } from "@/repositories/game.repository";
 
 async function createGame(homeTeamName: string, awayTeamName: string) {

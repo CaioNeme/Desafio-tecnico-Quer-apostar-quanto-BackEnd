@@ -1,10 +1,11 @@
 import { prisma } from "@/config";
+import { faker } from "@faker-js/faker";
 
-async function createParticipant(name: string, balance: number) {
+async function createParticipant(balance?: number) {
   const participant = await prisma.participant.create({
     data: {
-      name,
-      balance,
+      name: faker.person.fullName(),
+      balance: balance || 1000,
     },
   });
   return participant;
