@@ -250,4 +250,4 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ### Deploy
 
-<a href="https://querapostarapi.onrender.com">Clique Aqui!</a>
+<a href="https://querapostarapi.onrender.com/health">Clique Aqui!</a>
