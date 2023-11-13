@@ -1,7 +1,5 @@
 # Desafio Técnico - Quer apostar quanto?
 
-## Back-end
-
 ### Proposta do Projeto:
 
 Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novidade, afinal, a rivalidade faz parte do jogo. Entretanto, essa realidade ganhou uma nova dimensão nos últimos anos. Inúmeros aplicativos diferentes surgiram com essa proposta, onde o fluxo (simplificado) basicamente é:
