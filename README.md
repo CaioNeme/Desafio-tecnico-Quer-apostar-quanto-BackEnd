@@ -78,7 +78,7 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
   }
   ```
 
-  -Saída:
+  - Saída:
 
   ```js
   {
@@ -202,7 +202,7 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ##
 
-### Como rodar:
+### Como rodar o projeto:
 
 1. Clone esse repositório.
 2. Instale as dependências `npm i`.
@@ -214,7 +214,25 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ##
 
-### Implementações futuras
+### Como Rodar os testes:
+
+1. Clone esse repositório.
+2. Instale as dependências `npm i`.
+3. Crie um banco de dados PostgreSQL com o nome que desejar.
+4. Configure o `.env`,`.env.development` e `.env.test` usando o arquivo `.env.example`.
+5. Aplique as migrações `npm run test:migration:run`.
+6. Rode os tests `npm run test`
+
+##
+
+### Build:
+
+```bash
+  npm run build
+  npm start
+```
+
+### Implementações futuras:
 
 - Rotas novas que retornem estatísticas dos jogos e/ou apostas.
 - Filtro de buscas via `query string` para as rotas GET (ex: filtrar status dos jogos, nome do time, etc).
@@ -232,4 +250,4 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ### Deploy
 
-<a>Clique Aqui!</a>
+<a href="https://querapostarapi.onrender.com">Clique Aqui!</a>
