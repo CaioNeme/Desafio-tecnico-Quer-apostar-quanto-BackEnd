@@ -110,12 +110,20 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
         },
       });
 
+      const participant = await prisma.participant.findUnique({
+        where: {
+          id: bet.participantId,
+        },
+      });
+
       await prisma.participant.update({
         where: {
           id: bet.participantId,
         },
         data: {
-          balance: { increment: bet.amountWon },
+          balance:
+            participant.balance +
+            winningBetCalculator(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
         },
       });
     });
