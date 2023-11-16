@@ -175,7 +175,6 @@ describe('GET /games/:id', () => {
 
   it('should respond with status 404 when game not found', async () => {
     const response = await sever.get(`/games/999`);
-    console.log(response);
 
     expect(response.status).toBe(404);
     expect(response.body).toEqual({
