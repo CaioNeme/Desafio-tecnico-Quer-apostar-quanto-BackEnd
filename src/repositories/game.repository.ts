@@ -44,10 +44,6 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
     },
   });
 
-  if (!game) {
-    throw notFoundError('Game not found');
-  }
-
   const bets = await prisma.bet.findMany({
     where: {
       gameId,
@@ -137,10 +133,6 @@ async function betLose(gameId: number, homeTeamScore: number, awayTeamScore: num
     },
   });
 
-  if (!game) {
-    throw notFoundError('Game not found');
-  }
-
   const bets = await prisma.bet.findMany({
     where: {
       gameId,
@@ -172,10 +164,6 @@ async function getGameById(id: number) {
       Bet: true,
     },
   });
-  if (!game) {
-    throw notFoundError('Game not found');
-  }
-
   return game;
 }
 

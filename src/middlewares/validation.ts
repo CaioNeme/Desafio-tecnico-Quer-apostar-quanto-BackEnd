@@ -3,14 +3,14 @@ import { ObjectSchema } from 'joi';
 import { invalidDataError } from '@/errors';
 
 export function validateBody<T>(schema: ObjectSchema<T>): ValidationMiddleware {
-  return validate(schema, 'body');
+  return validateSchema(schema, 'body');
 }
 
 export function validateParams<T>(schema: ObjectSchema<T>): ValidationMiddleware {
-  return validate(schema, 'params');
+  return validateSchema(schema, 'params');
 }
 
-function validate(schema: ObjectSchema, type: 'body' | 'params') {
+function validateSchema(schema: ObjectSchema, type: 'body' | 'params') {
   return (req: Request, res: Response, next: NextFunction) => {
     const { error } = schema.validate(req[type], {
       abortEarly: false,

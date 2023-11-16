@@ -1,4 +1,4 @@
-import { badRequest } from '@/errors';
+import { badRequest, notFoundError } from '@/errors';
 import { gameRepository } from '@/repositories/game.repository';
 
 async function createGame(homeTeamName: string, awayTeamName: string) {
@@ -11,6 +11,7 @@ async function getGames() {
 }
 
 async function finishGame(id: number, homeTeamScore: number, awayTeamScore: number) {
+  await valideteGame(id);
   await validateGameFinish(id);
 
   const game = await gameRepository.finishGame(id, homeTeamScore, awayTeamScore);
@@ -19,6 +20,7 @@ async function finishGame(id: number, homeTeamScore: number, awayTeamScore: numb
 }
 
 async function getGameById(id: number) {
+  await valideteGame(id);
   const game = await gameRepository.getGameById(id);
   return game;
 }
@@ -26,8 +28,19 @@ async function getGameById(id: number) {
 async function validateGameFinish(idGame: number) {
   const game = await gameRepository.getGameById(idGame);
 
+  if (!game) {
+    throw notFoundError('Game not found');
+  }
+
   if (game.isFinished) {
     throw badRequest('Game already finished');
+  }
+}
+async function valideteGame(idGame: number) {
+  const game = await gameRepository.getGameById(idGame);
+  console.log(game);
+  if (!game) {
+    throw notFoundError('Game not found');
   }
 }
 
