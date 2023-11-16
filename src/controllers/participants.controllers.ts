@@ -8,7 +8,7 @@ export async function createParticipant(req: Request, res: Response) {
   res.status(httpStatus.CREATED).send(participant);
 }
 
-export async function getParticipants(req: Request, res: Response) {
-  const participants = await participantsService.getParticipants();
+export async function getAllParticipants(req: Request, res: Response) {
+  const participants = await participantsService.getAllParticipants();
   res.status(httpStatus.OK).send(participants);
 }

@@ -11,7 +11,7 @@ async function createParticipant(name: string, balance: number) {
   return participant;
 }
 
-async function getParticipants() {
+async function getAllParticipants() {
   const participants = prisma.participant.findMany();
 
   return participants;
@@ -29,6 +29,6 @@ async function getParticipantById(id: number) {
 
 export const participantsRepository = {
   createParticipant,
-  getParticipants,
+  getAllParticipants,
   getParticipantById,
 };

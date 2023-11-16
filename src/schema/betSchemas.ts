@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const createBet = Joi.object({
+const createBetSchema = Joi.object({
   homeTeamScore: Joi.number().greater(-1).required(),
   awayTeamScore: Joi.number().greater(-1).required(),
   amountBet: Joi.number().greater(0).required(),
@@ -9,5 +9,5 @@ const createBet = Joi.object({
 });
 
 export const betSchemas = {
-  createBet,
+  createBetSchema,
 };

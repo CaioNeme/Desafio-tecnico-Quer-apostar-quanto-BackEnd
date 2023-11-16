@@ -10,8 +10,8 @@ export async function createGame(req: Request, res: Response) {
   res.status(httpStatus.CREATED).send(game);
 }
 
-export async function getGames(req: Request, res: Response) {
-  const games = await gameServices.getGames();
+export async function getAllGames(req: Request, res: Response) {
+  const games = await gameServices.getAllGames();
   res.status(httpStatus.OK).send(games);
 }
 

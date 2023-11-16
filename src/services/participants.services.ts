@@ -5,12 +5,12 @@ async function createParticipant(name: string, balance: number) {
   return participant;
 }
 
-async function getParticipants() {
-  const participants = await participantsRepository.getParticipants();
+async function getAllParticipants() {
+  const participants = await participantsRepository.getAllParticipants();
   return participants;
 }
 
 export const participantsService = {
   createParticipant,
-  getParticipants,
+  getAllParticipants,
 };

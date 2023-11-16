@@ -1,6 +1,5 @@
 import { prisma } from '@/config/database';
-import { notFoundError } from '@/errors';
-import { winningBetCalculator } from '@/utils/winningBetCalculator';
+import { bettingCalculators } from '@/utils/bettingCalculator';
 
 async function createGame(homeTeamName: string, awayTeamName: string) {
   const game = prisma.game.create({
@@ -15,7 +14,7 @@ async function createGame(homeTeamName: string, awayTeamName: string) {
   return game;
 }
 
-async function getGames() {
+async function getAllGames() {
   const games = prisma.game.findMany();
   return games;
 }
@@ -102,7 +101,7 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
           id: bet.id,
         },
         data: {
-          amountWon: winningBetCalculator(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
+          amountWon: bettingCalculators(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
         },
       });
 
@@ -119,7 +118,7 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
         data: {
           balance:
             participant.balance +
-            winningBetCalculator(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
+            bettingCalculators(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
         },
       });
     });
@@ -169,7 +168,7 @@ async function getGameById(id: number) {
 
 export const gameRepository = {
   createGame,
-  getGames,
+  getAllGames,
   finishGame,
   getGameById,
 };

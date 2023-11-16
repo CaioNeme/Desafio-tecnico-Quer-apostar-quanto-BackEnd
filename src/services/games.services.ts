@@ -5,8 +5,8 @@ async function createGame(homeTeamName: string, awayTeamName: string) {
   const game = await gameRepository.createGame(homeTeamName, awayTeamName);
   return game;
 }
-async function getGames() {
-  const games = await gameRepository.getGames();
+async function getAllGames() {
+  const games = await gameRepository.getAllGames();
   return games;
 }
 
@@ -46,7 +46,7 @@ async function valideteGame(idGame: number) {
 
 export const gameServices = {
   createGame,
-  getGames,
+  getAllGames,
   finishGame,
   getGameById,
 };

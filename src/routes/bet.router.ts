@@ -5,6 +5,6 @@ import { betSchemas } from '@/schema/betSchemas';
 
 const betRouter = Router();
 
-betRouter.post('/bets', validateBody(betSchemas.createBet), createBet);
+betRouter.post('/bets', validateBody(betSchemas.createBetSchema), createBet);
 
 export default betRouter;
