@@ -6,8 +6,8 @@ const createGame = Joi.object({
 });
 
 const finishGame = Joi.object({
-  homeTeamScore: Joi.number().required(),
-  awayTeamScore: Joi.number().required(),
+  homeTeamScore: Joi.number().greater(-1).required(),
+  awayTeamScore: Joi.number().greater(-1).required(),
 });
 
 export const gamesSchemas = {
