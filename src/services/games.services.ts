@@ -38,7 +38,7 @@ async function validateGameFinish(idGame: number) {
 }
 async function valideteGame(idGame: number) {
   const game = await gameRepository.getGameById(idGame);
-  console.log(game);
+
   if (!game) {
     throw notFoundError('Game not found');
   }
