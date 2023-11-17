@@ -20,9 +20,9 @@ async function getAllGames() {
 }
 
 async function finishGame(id: number, homeTeamScore: number, awayTeamScore: number) {
-  await betWin(id, homeTeamScore, awayTeamScore);
-  await betLose(id, homeTeamScore, awayTeamScore);
-  const game = prisma.game.update({
+  await updateBetFinhed(id, homeTeamScore, awayTeamScore);
+  await updateAmoutWon(id);
+  const game = await prisma.game.update({
     where: {
       id,
     },
@@ -32,23 +32,17 @@ async function finishGame(id: number, homeTeamScore: number, awayTeamScore: numb
       isFinished: true,
     },
   });
+  await updateBalance(id);
 
   return game;
 }
 
-async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: number) {
-  const game = await prisma.game.findUnique({
-    where: {
-      id: gameId,
-    },
-  });
-
+async function updateBetFinhed(idGame: number, homeTeamScore: number, awayTeamScore: number) {
   const bets = await prisma.bet.findMany({
     where: {
-      gameId,
+      gameId: idGame,
     },
   });
-
   bets.map(async (bet) => {
     if (bet.homeTeamScore == homeTeamScore && bet.awayTeamScore == awayTeamScore) {
       await prisma.bet.update({
@@ -58,88 +52,10 @@ async function betWin(gameId: number, homeTeamScore: number, awayTeamScore: numb
         },
         data: {
           status: 'WON',
+          amountWon: 0,
         },
       });
-    }
-
-    const bets = await prisma.bet.aggregate({
-      where: {
-        gameId,
-      },
-      _sum: {
-        amountBet: true,
-      },
-    });
-
-    const betWin = await prisma.bet.findMany({
-      where: {
-        gameId,
-        status: 'WON',
-      },
-    });
-
-    const betWinSum = await prisma.bet.aggregate({
-      where: {
-        gameId,
-        status: 'WON',
-      },
-      _sum: {
-        amountBet: true,
-      },
-    });
-
-    betWin.map(async (bet) => {
-      const betParticipant = await prisma.bet.findUnique({
-        where: {
-          id: bet.id,
-          participantId: bet.participantId,
-        },
-      });
-
-      await prisma.bet.update({
-        where: {
-          id: bet.id,
-        },
-        data: {
-          amountWon: bettingCalculators(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
-        },
-      });
-
-      const participant = await prisma.participant.findUnique({
-        where: {
-          id: bet.participantId,
-        },
-      });
-
-      await prisma.participant.update({
-        where: {
-          id: bet.participantId,
-        },
-        data: {
-          balance:
-            participant.balance +
-            bettingCalculators(bets._sum.amountBet, betParticipant.amountBet, betWinSum._sum.amountBet),
-        },
-      });
-    });
-  });
-}
-
-async function betLose(gameId: number, homeTeamScore: number, awayTeamScore: number) {
-  const game = await prisma.game.findUnique({
-    where: {
-      id: gameId,
-    },
-  });
-
-  const bets = await prisma.bet.findMany({
-    where: {
-      gameId,
-    },
-  });
-
-  bets.map(async (bet) => {
-    if (bet.homeTeamScore != homeTeamScore && bet.awayTeamScore != awayTeamScore) {
+    } else {
       await prisma.bet.update({
         where: {
           id: bet.id,
@@ -151,6 +67,67 @@ async function betLose(gameId: number, homeTeamScore: number, awayTeamScore: num
         },
       });
     }
+  });
+}
+
+async function updateAmoutWon(idGame: number) {
+  const bets = await prisma.bet.findMany({
+    where: {
+      gameId: idGame,
+    },
+  });
+  console.log(bets);
+  const winningBets = await prisma.bet.findMany({
+    where: {
+      gameId: idGame,
+      status: 'WON',
+    },
+  });
+  const amountTotal = await prisma.bet.aggregate({
+    _sum: {
+      amountBet: true,
+    },
+    where: {
+      gameId: idGame,
+    },
+  });
+  const amountWin = await prisma.bet.aggregate({
+    _sum: {
+      amountBet: true,
+    },
+    where: {
+      gameId: idGame,
+      status: 'WON',
+    },
+  });
+  winningBets.map(async (bet) => {
+    await prisma.bet.update({
+      where: {
+        id: bet.id,
+      },
+      data: {
+        amountWon: bettingCalculators(amountTotal._sum.amountBet, bet.amountBet, amountWin._sum.amountBet),
+      },
+    });
+  });
+}
+
+async function updateBalance(gameId: number) {
+  const winningBets = await prisma.bet.findMany({
+    where: {
+      gameId: gameId,
+      status: 'WON',
+    },
+  });
+  winningBets.map(async (bet) => {
+    await prisma.participant.update({
+      where: {
+        id: bet.participantId,
+      },
+      data: {
+        balance: { increment: bet.amountWon },
+      },
+    });
   });
 }
 

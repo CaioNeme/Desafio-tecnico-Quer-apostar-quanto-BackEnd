@@ -14,6 +14,27 @@ async function main() {
       },
     });
   }
+  const participants = await prisma.participant.findMany();
+  if (participants.length === 0) {
+    await prisma.participant.create({
+      data: {
+        name: 'Joao',
+        balance: 1000,
+      },
+    });
+    await prisma.participant.create({
+      data: {
+        name: 'Maria',
+        balance: 2000,
+      },
+    });
+    await prisma.participant.create({
+      data: {
+        name: 'Jose',
+        balance: 3000,
+      },
+    });
+  }
 }
 
 main()
