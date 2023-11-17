@@ -2,7 +2,7 @@ import { prisma } from '@/config/database';
 import { bettingCalculators } from '@/utils/bettingCalculator';
 
 async function createGame(homeTeamName: string, awayTeamName: string) {
-  const game = prisma.game.create({
+  const game = await prisma.game.create({
     data: {
       homeTeamName,
       awayTeamName,
@@ -15,7 +15,7 @@ async function createGame(homeTeamName: string, awayTeamName: string) {
 }
 
 async function getAllGames() {
-  const games = prisma.game.findMany();
+  const games = await prisma.game.findMany();
   return games;
 }
 
