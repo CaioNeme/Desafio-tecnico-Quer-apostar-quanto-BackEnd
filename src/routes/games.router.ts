@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createGame, finishGame, getGameById, getAllGames } from '@/controllers/game.controllers';
-import { validateBody } from '@/middlewares/validation';
+import { validateBody } from '@/middlewares/validationSchema';
 import { gamesSchemas } from '@/schema/gamesSchemas';
 
 const gameRouter = Router();

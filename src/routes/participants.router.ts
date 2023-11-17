@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createParticipant, getAllParticipants } from '@/controllers/participants.controllers';
-import { validateBody } from '@/middlewares/validation';
+import { validateBody } from '@/middlewares/validationSchema';
 import { participantsSchemas } from '@/schema/participantsSchemas';
 
 const participantsRouter = Router();

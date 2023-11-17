@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { createBet } from '@/controllers/bet.controllers';
-import { validateBody } from '@/middlewares/validation';
+import { validateBody } from '@/middlewares/validationSchema';
 import { betSchemas } from '@/schema/betSchemas';
 
 const betRouter = Router();
