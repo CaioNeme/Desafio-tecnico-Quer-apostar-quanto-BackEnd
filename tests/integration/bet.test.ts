@@ -2,6 +2,7 @@ import supertest from 'supertest';
 import { dbClean } from '../helper';
 import { betFactory } from '../factories/bets.factory';
 import app, { init, close } from '@/app';
+import { gamesFactory } from '../factories/games.factory';
 
 const sever = supertest(app);
 
@@ -148,6 +149,39 @@ describe('POST /bets', () => {
     expect(response.status).toBe(400);
     expect(response.body).toEqual({
       message: 'Invalid data: "participantId" is required ',
+    });
+  });
+  it('should respond with status 400 when insufficient balance', async () => {
+    const bet = await betFactory.createBet(null, null, 1000);
+
+    const response = await sever.post('/bets').send({
+      homeTeamScore: bet.homeTeamScore,
+      awayTeamScore: bet.awayTeamScore,
+      amountBet: 100000,
+      gameId: bet.gameId,
+      participantId: bet.participantId,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      message: 'Insufficient balance',
+    });
+  });
+  it('should respond with status 400 when game already finished', async () => {
+    const game = await gamesFactory.finishGame();
+    const bet = await betFactory.createBet(null, null, 1000, game.id);
+
+    const response = await sever.post('/bets').send({
+      homeTeamScore: bet.homeTeamScore,
+      awayTeamScore: bet.awayTeamScore,
+      amountBet: bet.amountBet,
+      gameId: bet.gameId,
+      participantId: bet.participantId,
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body).toEqual({
+      message: 'Game already finished',
     });
   });
 });

@@ -28,10 +28,6 @@ async function getGameById(id: number) {
 async function validateGameFinish(idGame: number) {
   const game = await gameRepository.getGameById(idGame);
 
-  if (!game) {
-    throw notFoundError('Game not found');
-  }
-
   if (game.isFinished) {
     throw badRequest('Game already finished');
   }
