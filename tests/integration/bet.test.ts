@@ -1,8 +1,8 @@
 import supertest from 'supertest';
 import { dbClean } from '../helper';
 import { betFactory } from '../factories/bets.factory';
-import app, { init, close } from '@/app';
 import { gamesFactory } from '../factories/games.factory';
+import app, { init, close } from '@/app';
 
 const sever = supertest(app);
 
