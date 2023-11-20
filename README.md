@@ -1,12 +1,8 @@
 # Desafio Técnico - Quer apostar quanto?
 
-### Proposta do Projeto:
+### Deploy
 
-Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novidade, afinal, a rivalidade faz parte do jogo. Entretanto, essa realidade ganhou uma nova dimensão nos últimos anos. Inúmeros aplicativos diferentes surgiram com essa proposta, onde o fluxo (simplificado) basicamente é:
-
-- Uma série de eventos esportivos que vão acontecer aparecem para o usuário;
-- O usuário faz uma aposta dentro de um evento esportivo (por exemplo, em quem será o vencedor entre uma partida de futebol do Flamengo contra o Botafogo).
-- O evento esportivo acontece e, caso o usuário tenha acertado, recebe um valor.
+<a href="https://querapostarapi.onrender.com/health">Clique Aqui!</a>
 
 ##
 
@@ -192,17 +188,27 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ##
 
+### Proposta do Projeto:
+
+Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novidade, afinal, a rivalidade faz parte do jogo. Entretanto, essa realidade ganhou uma nova dimensão nos últimos anos. Inúmeros aplicativos diferentes surgiram com essa proposta, onde o fluxo (simplificado) basicamente é:
+
+- Uma série de eventos esportivos que vão acontecer aparecem para o usuário;
+- O usuário faz uma aposta dentro de um evento esportivo (por exemplo, em quem será o vencedor entre uma partida de futebol do Flamengo contra o Botafogo).
+- O evento esportivo acontece e, caso o usuário tenha acertado, recebe um valor.
+
+##
+
 ### Tecnologias:
 
 - TypeScript;
-- Node + Express;
+- Node(20.9.0) + Express;
 - Prisma (ORM);
 - Postgres;
 - Jest e Supertest.
 
 ##
 
-### Como rodar o projeto:
+### Como rodar o projeto desenvolvimento:
 
 1. Clone esse repositório.
 2. Instale as dependências `npm i`.
@@ -225,7 +231,7 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 
 ##
 
-### Build:
+### Como rodar em produção:
 
 ```bash
   npm run build
@@ -245,9 +251,3 @@ Apostar com os amigos e amigas no resultado de um jogo de futebol nunca foi novi
 ### Colaboradores
 
 - <a href="https://github.com/CaioNeme"> Caio Neme </a>
-
-##
-
-### Deploy
-
-<a href="https://querapostarapi.onrender.com/health">Clique Aqui!</a>
